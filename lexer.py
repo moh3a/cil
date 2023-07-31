@@ -3,7 +3,9 @@
 # lexer, tokenizer or scanner. A lexer is generally combined with a parser, which together analyze 
 # the syntax of programming languages, web pages, and so forth
 
-class Lexer:
+from tokens import Integer, Float, Operation
+
+class Lexer: 
     digits = "0123456789"
     operations = "+-/*"
     stop_words = [" "]
@@ -44,25 +46,3 @@ class Lexer:
         self.idx += 1
         if self.idx < len(self.text):
             self.char = self.text[self.idx]
-
-# A lexical token is a sequence of characters that can be treated as a unit in the grammar of the 
-# programming languages
-class Token:
-    def __init__(self, type, value):
-        self.type = type
-        self.value = value
-
-    def __repr__(self):
-        return self.value
-
-class Integer(Token):
-    def __init__(self, value):
-        super().__init__("INT", value)
-
-class Float(Token):
-    def __init__(self, value):
-        super().__init__("FLT", value)
-
-class Operation(Token):
-    def __init__(self, value):
-        super().__init__("OP", value)
