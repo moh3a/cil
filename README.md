@@ -2,5 +2,5 @@
 
 ## Todo:
 
-- add a parser and an interpreter
+- add an interpreter
 

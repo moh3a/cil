@@ -1,3 +1,8 @@
+# A lexical analysis, lexing or tokenization is the process of converting a sequence of characters 
+# into a sequence of lexical tokens. A program that performs lexical analysis may be termed a 
+# lexer, tokenizer or scanner. A lexer is generally combined with a parser, which together analyze 
+# the syntax of programming languages, web pages, and so forth
+
 class Lexer:
     digits = "0123456789"
     operations = "+-/*"
@@ -40,6 +45,8 @@ class Lexer:
         if self.idx < len(self.text):
             self.char = self.text[self.idx]
 
+# A lexical token is a sequence of characters that can be treated as a unit in the grammar of the 
+# programming languages
 class Token:
     def __init__(self, type, value):
         self.type = type
