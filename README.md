@@ -1,6 +1,5 @@
 # Custom Interpreted Language
 
-## Todo:
+## Todo
 
-- add an interpreter
-
+- add variables

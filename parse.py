@@ -14,6 +14,10 @@ class Parser:
     def factor(self):
         if self.token.type == "INT" or self.token.type == "FLT":
             return self.token
+        elif self.token.value == "(":
+            self.move()
+            expression = self.expression()
+            return expression
 
     # term :        factor | factor * factor | factor / factor
     # example: 1 * 2 -> [1, *, 2]
