@@ -3,9 +3,11 @@
 
 from tokens import Integer, Float
 
+
 class Interpreter:
-    def __init__(self, tree):
+    def __init__(self, tree, base):
         self.tree = tree
+        self.data = base
 
     def read_INT(self, value):
         return int(value)
@@ -31,7 +33,7 @@ class Interpreter:
 
         return Integer(output) if (left_type == "INT" and right_type == "INT") else Float(output)
 
-    def interpret(self, tree = None):
+    def interpret(self, tree=None):
         if tree is None:
             tree = self.tree
 
@@ -41,15 +43,15 @@ class Interpreter:
         #
         # [B, A, C]
 
-        left_node = tree[0] # left subtree B
+        left_node = tree[0]  # left subtree B
         if isinstance(left_node, list):
-            left_node = self.interpret(left_node) # recursively interpret every subtree of the node
-        
-        right_node = tree[2] # right subtree C
+            # recursively interpret every subtree of the node
+            left_node = self.interpret(left_node)
+
+        right_node = tree[2]  # right subtree C
         if isinstance(right_node, list):
             right_node = self.interpret(right_node)
 
-        operator = tree[1] # root node A
+        operator = tree[1]  # root node A
 
         return self.compute_bin(left_node, operator, right_node)
-        

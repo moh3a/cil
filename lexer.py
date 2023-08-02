@@ -1,14 +1,17 @@
-# A lexical analysis, lexing or tokenization is the process of converting a sequence of characters 
-# into a sequence of lexical tokens. A program that performs lexical analysis may be termed a 
-# lexer, tokenizer or scanner. A lexer is generally combined with a parser, which together analyze 
+# A lexical analysis, lexing or tokenization is the process of converting a sequence of characters
+# into a sequence of lexical tokens. A program that performs lexical analysis may be termed a
+# lexer, tokenizer or scanner. A lexer is generally combined with a parser, which together analyze
 # the syntax of programming languages, web pages, and so forth
 
-from tokens import Integer, Float, Operation
+from tokens import Integer, Float, Operation, Declaration, Variable
 
-class Lexer: 
+
+class Lexer:
     digits = "0123456789"
-    operations = "+-/*()"
+    operations = "+-/*()="
     stop_words = [" "]
+    letters = "abcdefghjklmnopqrstuvwxyz"
+    declarations = ["let"]
 
     def __init__(self, text):
         self.text = text
@@ -27,9 +30,15 @@ class Lexer:
             elif self.char in Lexer.stop_words:
                 self.move()
                 continue
+            elif self.char in Lexer.letters:
+                word = self.extract_word()
+                if word in Lexer.declarations:
+                    self.token = Declaration(word)
+                else:
+                    self.token = Variable(word)
 
             self.tokens.append(self.token)
-        
+
         return self.tokens
 
     def extract_number(self):
@@ -41,6 +50,13 @@ class Lexer:
             number += self.char
             self.move()
         return Integer(number) if not isFloat else Float(number)
+
+    def extract_word(self):
+        word = ""
+        while self.char in Lexer.letters and self.idx < len(self.text):
+            word += self.char
+            self.move()
+        return word
 
     def move(self):
         self.idx += 1
