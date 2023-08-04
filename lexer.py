@@ -1,7 +1,7 @@
-# A lexical analysis, lexing or tokenization is the process of converting a sequence of characters
-# into a sequence of lexical tokens. A program that performs lexical analysis may be termed a
-# lexer, tokenizer or scanner. A lexer is generally combined with a parser, which together analyze
-# the syntax of programming languages, web pages, and so forth
+# A lexical analysis is the process of converting a sequence of characters into a sequence of lexical
+# tokens. A program that performs lexical analysis may be termed a lexer, tokenizer or scanner.
+# A lexer is generally combined with a parser, which together analyze the syntax of programming languages,
+# web pages, and so forth
 
 from tokens import Integer, Float, Operation, Declaration, Variable
 

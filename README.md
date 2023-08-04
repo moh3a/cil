@@ -2,4 +2,4 @@
 
 ## Todo
 
-- add variables
+- add booleans and comparison operators and if statements
