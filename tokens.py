@@ -34,3 +34,18 @@ class Variable(Token):
     def __init__(self, value):
         super().__init__("VAR(?)", value)  # value for variable name
         # VAR for a token of type variable, (?) for unknown variable's data type
+
+
+class Boolean(Token):
+    def __init__(self, value):
+        super().__init__("BOOL", value)
+
+
+class Comparison(Token):
+    def __init__(self, value):
+        super().__init__("COMP", value)
+
+
+class Reserved(Token):
+    def __init__(self, value):
+        super().__init__("RSV", value)

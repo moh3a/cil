@@ -1,7 +1,7 @@
 # Take the generated parse tree as input and interpret it (compute arithmetic expression, for now)
 # Should be done with a postorder traversal of the binary tree
 
-from tokens import Integer, Float
+from tokens import Integer, Float, Reserved
 
 
 class Interpreter:
@@ -43,6 +43,20 @@ class Interpreter:
             output = left * right
         elif op.value == "/":
             output = left / right
+        elif op.value == ">":
+            output = 1 if left > right else 0
+        elif op.value == ">=":
+            output = 1 if left >= right else 0
+        elif op.value == "<":
+            output = 1 if left < right else 0
+        elif op.value == "<=":
+            output = 1 if left <= right else 0
+        elif op.value == "==":
+            output = 1 if left == right else 0
+        elif op.value == "and":
+            output = 1 if left and right else 0
+        elif op.value == "or":
+            output = 1 if left or right else 0
 
         return Integer(output) if (left_type == "INT" and right_type == "INT") else Float(output)
 
@@ -52,17 +66,45 @@ class Interpreter:
         operand = getattr(self, f"read_{operand_type}")(operand.value)
 
         if operator.value == "+":
-            return +operand
+            output = +operand
         elif operator.value == "-":
-            return -operand
+            output = -operand
+        elif operator.value == "not":
+            output = 1 if not operand else 0
+
+        return Integer(output) if (operand_type == "INT") else Float(output)
 
     def interpret(self, tree=None):
         if tree is None:
             tree = self.tree
 
+        if isinstance(tree, list):
+            if isinstance(tree[0], Reserved):
+                # interpret an if statement
+                if tree[0].value == "if":
+                    for idx, condition in enumerate(tree[1][0]):
+                        evaluation = self.interpret(condition)
+                        if evaluation.value == 1:
+                            return self.interpret(tree[1][1][idx])
+
+                    if len(tree[1] == 3):
+                        return self.interpret(tree[1][2])
+
+                    else:
+                        return
+                if tree[0].value == "while":
+                    condition = self.interpret(tree[1][0])
+                    while condition.value == 1:
+                        print(self.interpret(tree[1][1]))
+                        condition = self.interpret(tree[1][0])
+                    return
+
         # interpret a unary operation
         if isinstance(tree, list) and len(tree) == 2:
-            return self.compute_unary(tree[0], tree[1])
+            expression = tree[1]
+            if isinstance(expression, list):
+                expression = self.interpret(expression)
+            return self.compute_unary(tree[0], expression)
 
         # no operation
         # if input is not a tree return the number, example: 1 -> Integer("INT", 1)
